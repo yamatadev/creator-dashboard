@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📊 Creator Analytics Dashboard
+
+A full-stack analytics platform for managing content creators — tracking revenue, audience growth, and performance metrics across multiple platforms.
+
+![Dashboard Screenshot](./docs/dashboard.png)
+
+## Why I Built This
+
+I founded and scaled a content creator management agency from zero to $20,000+/month in revenue, managing multiple creators across platforms like OnlyFans, Instagram, and TikTok. This dashboard is a productized version of the analytics I used to run my business — rebuilt as a modern SaaS application.
+
+## Features
+
+- **Revenue Analytics** — Track earnings over time with monthly breakdowns and growth trends
+- **Creator Profiles** — Full profiles with bio, platform, status, and individual performance charts
+- **Audience Metrics** — Monitor followers, views, likes, and engagement rates per creator
+- **Multi-Platform Support** — Instagram, YouTube, TikTok, OnlyFans, Privacy
+- **Smart Filtering** — Search creators by name, filter by platform and status
+- **Responsive Design** — Works seamlessly on desktop, tablet, and mobile
+
+## Tech Stack
+
+- **Framework:** Next.js 15 (App Router) + TypeScript
+- **Database:** PostgreSQL + Prisma ORM
+- **Charts:** Recharts
+- **Styling:** Tailwind CSS v4
+- **Auth:** JWT with bcrypt password hashing
+- **Infrastructure:** Docker, Vercel, Neon
+
+## Architecture
+
+src/
+├── app/
+│   ├── api/              # REST API routes
+│   │   ├── stats/        # Dashboard statistics
+│   │   ├── creators/     # CRUD operations
+│   │   ├── creators/[id] # Individual creator data
+│   │   └── charts/       # Chart aggregations
+│   ├── creators/         # Creator listing
+│   ├── creators/[id]     # Creator detail page
+│   ├── analytics/        # Analytics dashboard
+│   ├── earnings/         # Revenue breakdown
+│   └── page.tsx          # Main dashboard
+├── components/           # Reusable React components
+└── lib/
+└── prisma.ts         # Database client
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+
+- Docker
+- Git
 
+### Setup
+
+1. Clone and install:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/YOUR_USERNAME/creator-dashboard.git
+cd creator-dashboard
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Start the database:
+```bash
+docker compose up -d
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Configure environment:
+```bash
+cp .env.example .env
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Run migrations and seed data:
+```bash
+npx prisma migrate dev
+npx prisma db seed
+```
 
-## Learn More
+5. Start the dev server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open http://localhost:3000. Login: admin@creatordash.com / admin123
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technical Decisions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Next.js App Router** for server components and efficient data fetching
+- **Prisma ORM** for type-safe database operations and easy migrations
+- **Recharts** over Chart.js for better React integration and composability
+- **Tailwind CSS** for rapid, consistent styling without CSS files
+- **PostgreSQL** over MySQL for better JSON support and advanced aggregation queries
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
