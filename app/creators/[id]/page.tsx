@@ -9,6 +9,22 @@ import {
 } from "recharts";
 import type { Platform } from "@prisma/client";
 
+const platformColors: Record<string, string> = {
+    INSTAGRAM: "bg-pink-100 text-pink-700 border-pink-200",
+    YOUTUBE: "bg-red-100 text-red-700 border-red-200",
+    TIKTOK: "bg-gray-900 text-white border-gray-900",
+    ONLYFANS: "bg-blue-100 text-blue-700 border-blue-200",
+    PRIVACY: "bg-purple-100 text-purple-700 border-purple-200",
+    TWITTER: "bg-sky-100 text-sky-700 border-sky-200",
+};
+
+const statusColors: Record<string, string> = {
+    ACTIVE: "bg-green-100 text-green-700 border-green-200",
+    INACTIVE: "bg-gray-100 text-gray-600 border-gray-200",
+    SUSPENDED: "bg-red-100 text-red-700 border-red-200",
+    PENDING: "bg-amber-100 text-amber-700 border-amber-200",
+};
+
 interface CreatorDetail {
     id: string;
     name: string;
@@ -78,33 +94,42 @@ export default function CreatorDetailPage() {
             </Link>
 
             <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
-                <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-4">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="flex items-center gap-4 min-w-0">
                         {creator.avatarUrl ? (
                             <img
                                 src={creator.avatarUrl}
                                 alt={creator.name}
-                                className="w-16 h-16 rounded-full bg-gray-100"
+                                className="w-16 h-16 rounded-full bg-gray-100 object-cover flex-shrink-0"
                             />
                         ) : (
-                            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold text-xl">
+                            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
                                 {creator.name.charAt(0)}
                             </div>
                         )}
-                        <div>
-                            <h2 className="text-2xl font-bold text-gray-900">{creator.name}</h2>
-                            <p className="text-gray-500">{creator.email}</p>
-                            {creator.bio && <p className="text-sm text-gray-400 mt-1">{creator.bio}</p>}
+
+                        <div className="min-w-0">
+                            <h2 className="text-2xl font-bold text-gray-900 truncate">{creator.name}</h2>
+                            <p className="text-gray-500 truncate">{creator.email}</p>
+                            {creator.bio && <p className="text-sm text-gray-400 mt-1 line-clamp-2">{creator.bio}</p>}
                         </div>
                     </div>
-                    <div className="flex gap-2">
-                        {(creator.platforms?.length > 0 ? creator.platforms : [creator.platform]).map((p: string) => (
-                            <span key={p} className="text-xs font-medium px-3 py-1 rounded-full bg-blue-100 text-blue-700">
+
+                    <div className="flex flex-wrap gap-2 sm:justify-end sm:max-w-[45%]">
+                        {(creator.platforms?.length ? creator.platforms : [creator.platform]).map((p) => (
+                            <span
+                                key={p}
+                                className={`text-xs font-medium px-2.5 py-1 rounded-full border whitespace-nowrap ${platformColors[p] || "bg-gray-100 text-gray-700 border-gray-200"
+                                    }`}
+                            >
                                 {p}
                             </span>
                         ))}
-                        <span className={`text-xs font-medium px-3 py-1 rounded-full ${creator.status === "ACTIVE" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"
-                            }`}>
+
+                        <span
+                            className={`text-xs font-medium px-2.5 py-1 rounded-full border whitespace-nowrap ${statusColors[creator.status] || "bg-gray-100 text-gray-700 border-gray-200"
+                                }`}
+                        >
                             {creator.status}
                         </span>
                     </div>
