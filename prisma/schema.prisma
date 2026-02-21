@@ -28,6 +28,7 @@ model Creator {
   name        String
   email       String   @unique
   platform    Platform
+  platforms   Platform[]
   status      Status   @default(ACTIVE)
   avatarUrl   String?
   bio         String?

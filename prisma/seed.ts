@@ -11,52 +11,59 @@ const creators = [
     name: "Luna Martinez",
     email: "luna@example.com",
     platform: Platform.INSTAGRAM,
+    platforms: [Platform.INSTAGRAM, Platform.TIKTOK],
     bio: "Lifestyle & fashion content creator with a focus on sustainable brands",
   },
   {
     name: "Jake Wilson",
     email: "jake@example.com",
     platform: Platform.YOUTUBE,
+    platforms: [Platform.YOUTUBE, Platform.TWITTER],
     bio: "Tech reviewer and gadget enthusiast. 500K+ subscribers",
   },
   {
     name: "Aria Chen",
     email: "aria@example.com",
     platform: Platform.TIKTOK,
+    platforms: [Platform.TIKTOK, Platform.INSTAGRAM, Platform.YOUTUBE],
     bio: "Dance and comedy creator. Viral content specialist",
   },
   {
     name: "Marcus Silva",
     email: "marcus@example.com",
     platform: Platform.ONLYFANS,
+    platforms: [Platform.ONLYFANS, Platform.INSTAGRAM],
     bio: "Fitness coach and exclusive workout content",
   },
   {
     name: "Sophie Laurent",
     email: "sophie@example.com",
     platform: Platform.PRIVACY,
+    platforms: [Platform.PRIVACY, Platform.INSTAGRAM, Platform.TIKTOK],
     bio: "Premium lifestyle and travel content creator",
   },
   {
     name: "Tyler Brooks",
     email: "tyler@example.com",
     platform: Platform.INSTAGRAM,
+    platforms: [Platform.INSTAGRAM, Platform.YOUTUBE],
     bio: "Photography and urban exploration. Brand partnerships",
   },
   {
     name: "Mia Tanaka",
     email: "mia@example.com",
     platform: Platform.YOUTUBE,
+    platforms: [Platform.YOUTUBE, Platform.TIKTOK, Platform.TWITTER],
     bio: "Cooking channel with Japanese fusion recipes",
   },
   {
     name: "Rafael Costa",
     email: "rafael@example.com",
     platform: Platform.TIKTOK,
+    platforms: [Platform.TIKTOK, Platform.INSTAGRAM],
     bio: "Brazilian humor and cultural content for global audiences",
   },
 ];
-
 // ============================================
 // FUNÇÕES AUXILIARES
 // ============================================
@@ -123,9 +130,10 @@ async function main() {
         name: data.name,
         email: data.email,
         platform: data.platform,
+        platforms: data.platforms,
         status,
         bio: data.bio,
-        avatarUrl: null,
+        avatarUrl: `https://api.dicebear.com/9.x/avataaars/svg?seed=${data.name.replace(/ /g, "")}`,
         joinedAt: new Date(2024, rand(0, 11), rand(1, 28)),
       },
     });

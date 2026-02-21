@@ -7,13 +7,16 @@ import { ArrowLeft, Users, Eye, Heart, DollarSign } from "lucide-react";
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from "recharts";
+import type { Platform } from "@prisma/client";
 
 interface CreatorDetail {
     id: string;
     name: string;
     email: string;
     platform: string;
+    platforms: Platform[];
     status: string;
+    avatarUrl: string;
     bio: string | null;
     joinedAt: string;
     totalEarnings: number;
@@ -77,9 +80,17 @@ export default function CreatorDetailPage() {
             <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
                 <div className="flex items-start justify-between">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold text-xl">
-                            {creator.name.charAt(0)}
-                        </div>
+                        {creator.avatarUrl ? (
+                            <img
+                                src={creator.avatarUrl}
+                                alt={creator.name}
+                                className="w-16 h-16 rounded-full bg-gray-100"
+                            />
+                        ) : (
+                            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold text-xl">
+                                {creator.name.charAt(0)}
+                            </div>
+                        )}
                         <div>
                             <h2 className="text-2xl font-bold text-gray-900">{creator.name}</h2>
                             <p className="text-gray-500">{creator.email}</p>
@@ -87,9 +98,11 @@ export default function CreatorDetailPage() {
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <span className="text-xs font-medium px-3 py-1 rounded-full bg-blue-100 text-blue-700">
-                            {creator.platform}
-                        </span>
+                        {(creator.platforms?.length > 0 ? creator.platforms : [creator.platform]).map((p: string) => (
+                            <span key={p} className="text-xs font-medium px-3 py-1 rounded-full bg-blue-100 text-blue-700">
+                                {p}
+                            </span>
+                        ))}
                         <span className={`text-xs font-medium px-3 py-1 rounded-full ${creator.status === "ACTIVE" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"
                             }`}>
                             {creator.status}

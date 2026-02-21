@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, LayoutDashboard, Users, BarChart3, DollarSign } from "lucide-react";
+import { Menu, X, LayoutDashboard, Users, BarChart3, DollarSign, LogOut } from "lucide-react";
+import { useAuth } from "@/components/auth-provider";
 
 const navItems = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -15,6 +16,9 @@ const navItems = [
 export function MobileHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { user, logout } = useAuth();
+
+  if (!user) return null;
 
   return (
     <div className="lg:hidden">
@@ -38,6 +42,11 @@ export function MobileHeader() {
               </Link>
             );
           })}
+          <button onClick={logout}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 w-full">
+            <LogOut size={18} />
+            Logout
+          </button>
         </nav>
       )}
     </div>

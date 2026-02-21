@@ -67,44 +67,62 @@ export default function EarningsPage() {
         </div>
       </div>
 
-      {/* Tabela mensal */}
+      {/* Monthly Breakdown — Cards no mobile, tabela no desktop */}
       <div className="bg-white rounded-xl border border-gray-200">
         <div className="p-6 border-b border-gray-200">
           <h3 className="text-lg font-semibold">Monthly Breakdown</h3>
         </div>
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-gray-100">
-              <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">Month</th>
-              <th className="text-right text-xs font-medium text-gray-500 uppercase px-6 py-3">Revenue</th>
-              <th className="text-right text-xs font-medium text-gray-500 uppercase px-6 py-3">Change</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {charts.revenueByMonth.map((month, index) => {
-              const prev = index > 0 ? charts.revenueByMonth[index - 1].total : month.total;
-              const change = prev > 0 ? ((month.total - prev) / prev) * 100 : 0;
-              const [year, m] = month.month.split("-");
-              const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-              return (
-                <tr key={month.month} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                    {months[parseInt(m) - 1]} {year}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-right font-semibold">
-                    ${month.total.toLocaleString()}
-                  </td>
-                  <td className={`px-6 py-4 text-sm text-right font-medium ${
-                    change >= 0 ? "text-green-600" : "text-red-600"
-                  }`}>
-                    {change >= 0 ? "+" : ""}{change.toFixed(1)}%
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        {/* Versão Desktop — tabela */}
+        <div className="hidden md:block">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-100">
+                <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">Month</th>
+                <th className="text-right text-xs font-medium text-gray-500 uppercase px-6 py-3">Revenue</th>
+                <th className="text-right text-xs font-medium text-gray-500 uppercase px-6 py-3">Change</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {charts.revenueByMonth.map((month, index) => {
+                const prev = index > 0 ? charts.revenueByMonth[index - 1].total : month.total;
+                const change = prev > 0 ? ((month.total - prev) / prev) * 100 : 0;
+                const [year, m] = month.month.split("-");
+                const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+                return (
+                  <tr key={month.month} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 text-sm font-medium text-gray-900">{months[parseInt(m) - 1]} {year}</td>
+                    <td className="px-6 py-4 text-sm text-right font-semibold">${month.total.toLocaleString()}</td>
+                    <td className={`px-6 py-4 text-sm text-right font-medium ${change >= 0 ? "text-green-600" : "text-red-600"}`}>
+                      {change >= 0 ? "+" : ""}{change.toFixed(1)}%
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Versão Mobile — cards empilhados */}
+        <div className="md:hidden divide-y divide-gray-100">
+          {charts.revenueByMonth.map((month, index) => {
+            const prev = index > 0 ? charts.revenueByMonth[index - 1].total : month.total;
+            const change = prev > 0 ? ((month.total - prev) / prev) * 100 : 0;
+            const [year, m] = month.month.split("-");
+            const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+            return (
+              <div key={month.month} className="p-4 flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-900">{months[parseInt(m) - 1]} {year}</p>
+                  <p className={`text-xs font-medium mt-0.5 ${change >= 0 ? "text-green-600" : "text-red-600"}`}>
+                    {change >= 0 ? "↑" : "↓"} {Math.abs(change).toFixed(1)}%
+                  </p>
+                </div>
+                <p className="text-sm font-bold">${month.total.toLocaleString()}</p>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Revenue por criador */}
@@ -116,7 +134,6 @@ export default function EarningsPage() {
           {charts.topCreators.map((creator, i) => {
             const maxTotal = charts.topCreators[0]?.total || 1;
             const percentage = (creator.total / maxTotal) * 100;
-
             return (
               <div key={creator.name} className="p-4 px-6">
                 <div className="flex items-center justify-between mb-2">
@@ -130,7 +147,7 @@ export default function EarningsPage() {
                   <span className="text-sm font-semibold">${creator.total.toLocaleString()}</span>
                 </div>
                 <div className="ml-8 bg-gray-100 rounded-full h-2">
-                  <div className="bg-blue-500 rounded-full h-2" style={{ width: `${percentage}%` }} />
+                  <div className="bg-blue-500 rounded-full h-2 transition-all" style={{ width: `${percentage}%` }} />
                 </div>
               </div>
             );
