@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@theme {
+  --color-surface: #111118;
+  --color-surface-hover: #14141e;
+  --color-sidebar: #0D0D16;
+  --color-base: #09090F;
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -14,12 +21,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: #1e1e2e;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
+  background: #2d2d3d;
 }
 
 .line-clamp-2 {

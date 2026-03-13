@@ -28,38 +28,44 @@ export default function EarningsPage() {
   }, []);
 
   if (!stats || !charts) {
-    return <div className="h-96 bg-white rounded-xl border animate-pulse" />;
+    return <div className="h-96 bg-surface rounded-xl border border-white/6 animate-pulse" />;
   }
 
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900">Earnings</h2>
-        <p className="text-gray-500 mt-1">Revenue breakdown and financial overview</p>
+        <h2 className="text-2xl font-bold text-slate-100">Earnings</h2>
+        <p className="text-slate-500 mt-1 text-sm">Revenue breakdown and financial overview</p>
       </div>
 
-      {/* Cards */}
+      {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-white rounded-xl p-6 border border-gray-200">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="bg-green-50 p-2 rounded-lg"><DollarSign className="text-green-600" size={20} /></div>
-            <span className="text-sm text-gray-500">Total Revenue</span>
+        <div className="bg-surface rounded-xl p-6 border border-white/6">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="bg-emerald-500/10 border border-emerald-500/20 p-2 rounded-xl">
+              <DollarSign className="text-emerald-400" size={18} />
+            </div>
+            <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Total Revenue</span>
           </div>
-          <p className="text-3xl font-bold">${stats.totalEarnings.toLocaleString()}</p>
+          <p className="text-3xl font-bold text-slate-100">${stats.totalEarnings.toLocaleString()}</p>
         </div>
-        <div className="bg-white rounded-xl p-6 border border-gray-200">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="bg-blue-50 p-2 rounded-lg"><TrendingUp className="text-blue-600" size={20} /></div>
-            <span className="text-sm text-gray-500">This Month</span>
+        <div className="bg-surface rounded-xl p-6 border border-white/6">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="bg-violet-500/10 border border-violet-500/20 p-2 rounded-xl">
+              <TrendingUp className="text-violet-400" size={18} />
+            </div>
+            <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">This Month</span>
           </div>
-          <p className="text-3xl font-bold">${stats.monthlyEarnings.toLocaleString()}</p>
+          <p className="text-3xl font-bold text-slate-100">${stats.monthlyEarnings.toLocaleString()}</p>
         </div>
-        <div className="bg-white rounded-xl p-6 border border-gray-200">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="bg-purple-50 p-2 rounded-lg"><Calendar className="text-purple-600" size={20} /></div>
-            <span className="text-sm text-gray-500">Avg / Month</span>
+        <div className="bg-surface rounded-xl p-6 border border-white/6">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="bg-amber-500/10 border border-amber-500/20 p-2 rounded-xl">
+              <Calendar className="text-amber-400" size={18} />
+            </div>
+            <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Avg / Month</span>
           </div>
-          <p className="text-3xl font-bold">
+          <p className="text-3xl font-bold text-slate-100">
             ${charts.revenueByMonth.length > 0
               ? Math.round(charts.revenueByMonth.reduce((s, m) => s + m.total, 0) / charts.revenueByMonth.length).toLocaleString()
               : 0}
@@ -67,33 +73,33 @@ export default function EarningsPage() {
         </div>
       </div>
 
-      {/* Monthly Breakdown — Cards no mobile, tabela no desktop */}
-      <div className="bg-white rounded-xl border border-gray-200">
-        <div className="p-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold">Monthly Breakdown</h3>
+      {/* Monthly Breakdown */}
+      <div className="bg-surface rounded-xl border border-white/6">
+        <div className="p-6 border-b border-white/6">
+          <h3 className="text-sm font-semibold text-slate-200 uppercase tracking-wider">Monthly Breakdown</h3>
         </div>
 
-        {/* Versão Desktop — tabela */}
+        {/* Desktop Table */}
         <div className="hidden md:block">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-100">
-                <th className="text-left text-xs font-medium text-gray-500 uppercase px-6 py-3">Month</th>
-                <th className="text-right text-xs font-medium text-gray-500 uppercase px-6 py-3">Revenue</th>
-                <th className="text-right text-xs font-medium text-gray-500 uppercase px-6 py-3">Change</th>
+              <tr className="border-b border-white/6">
+                <th className="text-left text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">Month</th>
+                <th className="text-right text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">Revenue</th>
+                <th className="text-right text-[10px] font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">Change</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-white/4">
               {charts.revenueByMonth.map((month, index) => {
                 const prev = index > 0 ? charts.revenueByMonth[index - 1].total : month.total;
                 const change = prev > 0 ? ((month.total - prev) / prev) * 100 : 0;
                 const [year, m] = month.month.split("-");
                 const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
                 return (
-                  <tr key={month.month} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 text-sm font-medium text-gray-900">{months[parseInt(m) - 1]} {year}</td>
-                    <td className="px-6 py-4 text-sm text-right font-semibold">${month.total.toLocaleString()}</td>
-                    <td className={`px-6 py-4 text-sm text-right font-medium ${change >= 0 ? "text-green-600" : "text-red-600"}`}>
+                  <tr key={month.month} className="hover:bg-white/2 transition-colors">
+                    <td className="px-6 py-4 text-sm font-medium text-slate-300">{months[parseInt(m) - 1]} {year}</td>
+                    <td className="px-6 py-4 text-sm text-right font-semibold text-slate-100 tabular-nums">${month.total.toLocaleString()}</td>
+                    <td className={`px-6 py-4 text-sm text-right font-semibold tabular-nums ${change >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
                       {change >= 0 ? "+" : ""}{change.toFixed(1)}%
                     </td>
                   </tr>
@@ -103,8 +109,8 @@ export default function EarningsPage() {
           </table>
         </div>
 
-        {/* Versão Mobile — cards empilhados */}
-        <div className="md:hidden divide-y divide-gray-100">
+        {/* Mobile Cards */}
+        <div className="md:hidden divide-y divide-white/4">
           {charts.revenueByMonth.map((month, index) => {
             const prev = index > 0 ? charts.revenueByMonth[index - 1].total : month.total;
             const change = prev > 0 ? ((month.total - prev) / prev) * 100 : 0;
@@ -113,24 +119,24 @@ export default function EarningsPage() {
             return (
               <div key={month.month} className="p-4 flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-900">{months[parseInt(m) - 1]} {year}</p>
-                  <p className={`text-xs font-medium mt-0.5 ${change >= 0 ? "text-green-600" : "text-red-600"}`}>
+                  <p className="text-sm font-medium text-slate-300">{months[parseInt(m) - 1]} {year}</p>
+                  <p className={`text-xs font-semibold mt-0.5 ${change >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
                     {change >= 0 ? "↑" : "↓"} {Math.abs(change).toFixed(1)}%
                   </p>
                 </div>
-                <p className="text-sm font-bold">${month.total.toLocaleString()}</p>
+                <p className="text-sm font-bold text-slate-100 tabular-nums">${month.total.toLocaleString()}</p>
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* Revenue por criador */}
-      <div className="bg-white rounded-xl border border-gray-200 mt-6">
-        <div className="p-6 border-b border-gray-200">
-          <h3 className="text-lg font-semibold">Revenue by Creator</h3>
+      {/* Revenue by Creator */}
+      <div className="bg-surface rounded-xl border border-white/6 mt-6">
+        <div className="p-6 border-b border-white/6">
+          <h3 className="text-sm font-semibold text-slate-200 uppercase tracking-wider">Revenue by Creator</h3>
         </div>
-        <div className="divide-y divide-gray-100">
+        <div className="divide-y divide-white/4">
           {charts.topCreators.map((creator, i) => {
             const maxTotal = charts.topCreators[0]?.total || 1;
             const percentage = (creator.total / maxTotal) * 100;
@@ -138,16 +144,16 @@ export default function EarningsPage() {
               <div key={creator.name} className="p-4 px-6">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-bold text-gray-400 w-5">{i + 1}</span>
+                    <span className="text-xs font-bold text-slate-600 w-5">{i + 1}</span>
                     <div>
-                      <p className="text-sm font-medium">{creator.name}</p>
-                      <p className="text-xs text-gray-400">{creator.platform}</p>
+                      <p className="text-sm font-medium text-slate-200">{creator.name}</p>
+                      <p className="text-xs text-slate-500">{creator.platform}</p>
                     </div>
                   </div>
-                  <span className="text-sm font-semibold">${creator.total.toLocaleString()}</span>
+                  <span className="text-sm font-semibold text-slate-200 tabular-nums">${creator.total.toLocaleString()}</span>
                 </div>
-                <div className="ml-8 bg-gray-100 rounded-full h-2">
-                  <div className="bg-blue-500 rounded-full h-2 transition-all" style={{ width: `${percentage}%` }} />
+                <div className="ml-8 bg-white/5 rounded-full h-1.5">
+                  <div className="bg-violet-500 rounded-full h-1.5 transition-all" style={{ width: `${percentage}%` }} />
                 </div>
               </div>
             );

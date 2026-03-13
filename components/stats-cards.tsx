@@ -33,30 +33,30 @@ export function StatsCards() {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="bg-white rounded-xl p-6 border border-gray-200 animate-pulse h-28" />
+          <div key={i} className="bg-surface rounded-xl p-6 border border-white/6 animate-pulse h-28" />
         ))}
       </div>
     );
   }
 
   const cards = [
-    { label: "Total Creators", value: stats.totalCreators.toString(), icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
-    { label: "Active", value: stats.activeCreators.toString(), icon: UserCheck, color: "text-green-600", bg: "bg-green-50" },
-    { label: "Total Revenue", value: formatCurrency(stats.totalEarnings), icon: DollarSign, color: "text-amber-600", bg: "bg-amber-50" },
-    { label: "This Month", value: formatCurrency(stats.monthlyEarnings), icon: TrendingUp, color: "text-purple-600", bg: "bg-purple-50" },
+    { label: "Total Creators", value: stats.totalCreators.toString(), icon: Users, color: "text-violet-400", bg: "bg-violet-500/10", border: "border-violet-500/20" },
+    { label: "Active", value: stats.activeCreators.toString(), icon: UserCheck, color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
+    { label: "Total Revenue", value: formatCurrency(stats.totalEarnings), icon: DollarSign, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
+    { label: "This Month", value: formatCurrency(stats.monthlyEarnings), icon: TrendingUp, color: "text-fuchsia-400", bg: "bg-fuchsia-500/10", border: "border-fuchsia-500/20" },
   ];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {cards.map((card) => (
-        <div key={card.label} className="bg-white rounded-xl p-6 border border-gray-200">
+        <div key={card.label} className="bg-surface rounded-xl p-6 border border-white/6 hover:border-white/10 transition-colors">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500">{card.label}</p>
-              <p className="text-2xl font-bold mt-1">{card.value}</p>
+              <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">{card.label}</p>
+              <p className="text-2xl font-bold mt-2 text-slate-100">{card.value}</p>
             </div>
-            <div className={`${card.bg} p-3 rounded-lg`}>
-              <card.icon className={card.color} size={24} />
+            <div className={`${card.bg} border ${card.border} p-3 rounded-xl`}>
+              <card.icon className={card.color} size={20} />
             </div>
           </div>
         </div>
